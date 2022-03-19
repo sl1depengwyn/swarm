@@ -210,6 +210,11 @@ requiredCaps' ctx = go
     -- the case that the argument is unused, but in that case the
     -- unused argument could be removed.
     TLam _ _ t -> S.insert CLambda $ go t
+    -- Special case for the 'require' command, which must look like an
+    -- application of 'require' to a literal string.  If the string
+    -- corresponds to a known device, require the capabilities
+    -- provided by that device.
+    TApp (TConst Require) (TString deviceName) -> _
     -- An application simply requires the union of the capabilities
     -- from the left- and right-hand sides.  This assumes that the
     -- argument will be used at least once by the function.

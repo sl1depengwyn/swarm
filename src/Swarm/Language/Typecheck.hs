@@ -438,6 +438,7 @@ inferConst c = toU $ case c of
   Wait -> [tyQ| int -> cmd () |]
   Noop -> [tyQ| cmd () |]
   Selfdestruct -> [tyQ| cmd () |]
+  Require -> [tyQ| string -> cmd () |]
   Move -> [tyQ| cmd () |]
   Turn -> [tyQ| dir -> cmd () |]
   Grab -> [tyQ| cmd string |]

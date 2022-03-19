@@ -202,6 +202,8 @@ data Const
     Wait
   | -- | Self-destruct.
     Selfdestruct
+  | -- | Require a specific device to be installed.
+    Require
   | -- Basic actions
 
     -- | Move forward one step.
@@ -423,6 +425,7 @@ constInfo c = case c of
   Wait -> commandLow 0
   Noop -> commandLow 0
   Selfdestruct -> commandLow 0
+  Require -> commandLow 1
   Move -> commandLow 0
   Turn -> commandLow 1
   Grab -> commandLow 0
