@@ -1,0 +1,65 @@
+name: Moving, part 1
+entities:
+  - name: goal
+    display:
+      attr: device
+      char: 'X'
+    description:
+    - |
+      Robots can use the 'move' command to move.
+      But they only 'turn' in cardinal directions. 
+
+      You are special. You are a knight. 
+
+      Go forth and capture the King!
+    properties: [portable]
+win: |
+  try {
+    bloc <- as base {whereami};
+    krob <- find "king";
+    case krob
+      (\u. return False)
+      (\king.
+        kloc <- as king {whereami};
+        return (bloc == kloc)
+      )
+  } { return false }
+robots:
+  - name: base
+    loc: [0,0]
+    dir: [2,-1]
+    devices:
+      - treads
+      - logger
+    inventory:
+      - [1, goal]
+    display:
+      char: '♘'
+  - name: king
+    loc: [7,-6]
+    dir: [0,0]
+    display:
+      char: '♚'
+world:
+  default: [ice, water]
+  palette:
+    '.': [grass, null]
+    '#': [ice, null]
+    '┌': [stone, upper left corner]
+    '┐': [stone, upper right corner]
+    '└': [stone, lower left corner]
+    '┘': [stone, lower right corner]
+    '─': [stone, horizontal wall]
+    '│': [stone, vertical wall]
+  upperleft: [-1, 1]
+  map: |
+    ┌────────┐
+    │.#.#.#.#│
+    │#.#.#.#.│
+    │.#.#.#.#│
+    │#.#.#.#.│
+    │.#.#.#.#│
+    │#.#.#.#.│
+    │.#.#.#.#│
+    │#.#.#.#.│
+    └────────┘

@@ -206,6 +206,10 @@ updateEntityAt loc upd = zoomWorld (W.updateM @Int (W.locToCoords loc) upd)
 robotWithID :: (Has (State GameState) sig m) => RID -> m (Maybe Robot)
 robotWithID rid = use (robotMap . at rid)
 
+-- | Get the robot with a given name.
+robotWithName :: (Has (State GameState) sig m) => Text -> m (Maybe Robot)
+robotWithName rname = use (robotMap . to IM.elems . to (find $ \r -> r ^. robotName == rname))
+
 -- | Manhattan distance between world locations.
 manhattan :: V2 Int64 -> V2 Int64 -> Int64
 manhattan (V2 x1 y1) (V2 x2 y2) = abs (x1 - x2) + abs (y1 - y2)
@@ -968,6 +972,12 @@ execConst c vs s k = do
 
         -- Return the value returned by the hypothetical command.
         return $ Out v s k
+      _ -> badConst
+    Find -> case vs of
+      [VString rname] -> do
+        r <- robotWithName rname
+        let (found, robot) = maybe (False, VUnit) ((True,) . VRobot . view robotID) r
+        return $ Out (VInj found robot) s k
       _ -> badConst
     Say -> case vs of
       [VString msg] -> do
