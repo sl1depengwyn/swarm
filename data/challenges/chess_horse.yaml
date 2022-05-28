@@ -1,4 +1,4 @@
-name: Moving, part 1
+name: Chess Knight
 entities:
   - name: goal
     display:
