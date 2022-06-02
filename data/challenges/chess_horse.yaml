@@ -24,16 +24,12 @@ entities:
 win: |
   try {
     bloc <- as base {whereami};
-    krob <- find "king";
-    case krob
-      (\u. return False)
-      (\king.
-        kloc <- as king {whereami};
-        return (bloc == kloc)
-      )
+    king <- robotNamed "king";
+    kloc <- as king {whereami};
+    return (bloc == kloc)
   } { return false }
 robots:
-  - name: base
+  - name: horse
     loc: [0,0]
     dir: [2,-1]
     devices:

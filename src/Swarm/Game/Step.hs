@@ -975,9 +975,9 @@ execConst c vs s k = do
       _ -> badConst
     RobotNamed -> case vs of
       [VString rname] -> do
-        r <- robotWithName rname
-        let (found, robot) = maybe (False, VUnit) ((True,) . VRobot . view robotID) r
-        return $ Out (VInj found robot) s k
+        r <- robotWithName rname >>= (`isJustOrFail` ["There is no robot named", rname])
+        let robotValue = VRobot (r ^. robotID)
+        return $ Out robotValue s k
       _ -> badConst
     Say -> case vs of
       [VString msg] -> do
