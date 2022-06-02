@@ -973,7 +973,7 @@ execConst c vs s k = do
         -- Return the value returned by the hypothetical command.
         return $ Out v s k
       _ -> badConst
-    Find -> case vs of
+    RobotNamed -> case vs of
       [VString rname] -> do
         r <- robotWithName rname
         let (found, robot) = maybe (False, VUnit) ((True,) . VRobot . view robotID) r
